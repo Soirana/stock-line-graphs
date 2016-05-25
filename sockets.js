@@ -26,16 +26,12 @@ var Main =  React.createClass({
 		} 
 		var host = location.origin.replace(/^http/, 'ws')
 		connection = new WebSocket(host);
-
 		connection.onopen = function () {
 			connection.send('startME');
-    	  
 	    };
-
 		connection.onerror = function (error) {
 			alert('Server not working');
 		};
-
 		connection.onmessage = function (message) {
 			message= JSON.parse(message.data);
 			
@@ -46,52 +42,43 @@ var Main =  React.createClass({
 			var listas= self.state.array.slice();
 			listas.push(message);
 			self.setState({array: listas});
-	
 		};
-
 		setInterval(function() {
     	    if (connection.readyState !== 1) {
         	    alert('Connection error');
         	}
     	}, 5000);
 	},
-
 	getInitialState: function(){
      return {array: this.props.stocks}
  	},
  	add: function(){
- 		if (this.refs.searcher.value){
- 		var listas = this.state.array.slice();
- 		for (var i = 0; i < listas.length; i++) {
- 			if (listas[i].short === this.refs.searcher.value.toUpperCase()){
- 				return;
+		if (this.refs.searcher.value){
+ 			var listas = this.state.array.slice();
+ 			for (var i = 0; i < listas.length; i++) {
+ 				if (listas[i].short === this.refs.searcher.value.toUpperCase()){
+ 					return;
+ 				}
  			}
+ 			connection.send(this.refs.searcher.value);
+ 			this.refs.searcher.value = ""; 
  		}
- 		connection.send(this.refs.searcher.value);
- 		this.refs.searcher.value = ""; 
- 		
- 	}
  	},
  	handleRemove: function(ind){
  		var listas= this.state.array.slice();
  		var removeMessage = "remove-"+listas[ind].short;
- 		
  		listas.splice(ind, 1);
 		if (listas.length === 0) {
 			 $("#hide").addClass("hidden");
 		}
 		connection.send(removeMessage);
-
  	},
-
 	render: function(){
-		
 		if (this.state.array.length>0){
-		drawLines(this.state.array);
+			drawLines(this.state.array);
 		}
-		
 		return 	<div>
-					{this.state.array.map((listValue, index)=>{
+				{this.state.array.map((listValue, index)=>{
 						if (listValue.name) {
 						return 	<div key = {index}>
 									<div className="brick"  >
@@ -113,10 +100,8 @@ var Main =  React.createClass({
 	}
 });
 
-
 ReactDOM.render(<Main stocks = {[]} />,
  document.querySelector("#main") );
-
 
 function drawLines(arr){
 	d3.select('svg')
@@ -127,16 +112,11 @@ function drawLines(arr){
 	for (var i = 0; i < arr.length; i++) {
 		ymaxes.push(d3.max(arr[i].raw, function(d){return d.close}))
 	}
-	
 	var ymax =d3.max(ymaxes);
 	var sample = arr[0].raw;
-    
-
     var timeFormat = d3.time.format('%Y-%m-%dT%H:%M:%S');
-
     var xmin = timeFormat.parse(sample[0].date.slice(0, 19)).getTime();
     var xmax = timeFormat.parse(sample[sample.length-1].date.slice(0,19)).getTime();
-    
 
 	var margin = {top: 20, right: 50, bottom: 50, left: 50},
     width = 950 - margin.left - margin.right,
@@ -150,7 +130,6 @@ function drawLines(arr){
 
   	d3.select("#hide")
 	  .classed("hidden", false);
-
 
     var xScale = d3.scale.linear()
         .range([0, width])
@@ -204,7 +183,6 @@ function drawLines(arr){
     var div = d3.select("body").append("div")   
     	.attr("class", "tooltip")               
     	.style("opacity", 0);
-
     
 	arr.forEach(function(d, i) {
     	grapher.append('path')
@@ -213,14 +191,14 @@ function drawLines(arr){
            	.attr('stroke-width', 2)
         	.attr('fill', 'none');
 
-        	 grapher.selectAll("dot")	
-		        .data(d.raw)			
-    				.enter().append("circle")								
-        				.attr("r", 5)
-        				.style("opacity", 0)		
-        				.attr("cx", function(d) { return xScale(timeFormat.parse(d.date.slice(0,19)).getTime()); })		 
-        				.attr("cy", function(d) { return yScale(d.close); })		
-        				.on("mouseover", function(d) {
+   	 grapher.selectAll("dot")	
+	        .data(d.raw)			
+			.enter().append("circle")								
+    				.attr("r", 5)
+       				.style("opacity", 0)		
+       				.attr("cx", function(d) { return xScale(timeFormat.parse(d.date.slice(0,19)).getTime()); })		 
+       				.attr("cy", function(d) { return yScale(d.close); })		
+       				.on("mouseover", function(d) {
         					d3.select(this).style("opacity", 0.9);	
             					div.transition()		
                 				.duration(200)		
@@ -229,18 +207,11 @@ function drawLines(arr){
                 					.style("left", (d3.event.pageX) + "px")		
                 					.style("top", (d3.event.pageY - 50) + "px");	
             							})					
-        				.on("mouseout", function(d) {
+       				.on("mouseout", function(d) {
         						d3.select(this).style("opacity", 0);			
             					div.transition()		
             	   					.duration(500)		
     		            			.style("opacity", 0);	
         						});
-
-
-
-
 });
-
-     
-
 };
