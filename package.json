@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node chat-server.js"
+    "start": "node index.js"
   },
   "engines": {
     "node": "4.4.3"
