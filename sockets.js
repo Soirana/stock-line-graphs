@@ -24,7 +24,8 @@ var Main =  React.createClass({
 			$('.brick').hide();
 			return;
 		} 
-		connection = new WebSocket('ws://127.0.0.1:5000');
+		var host = location.origin.replace(/^http/, 'ws')
+		connection = new WebSocket(host);
 
 		connection.onopen = function () {
 			connection.send('startME');
@@ -32,7 +33,6 @@ var Main =  React.createClass({
 	    };
 
 		connection.onerror = function (error) {
-			console.log(error);
 			alert('Server not working');
 		};
 
@@ -44,7 +44,6 @@ var Main =  React.createClass({
 				return;
 			}
 			var listas= self.state.array.slice();
-			console.log(message);
 			listas.push(message);
 			self.setState({array: listas});
 	
