@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://cdn.rawgit.com/madrobby/keymaster/master/keymaster.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="socket.css">
+<script type="text/babel" src="sockets.js"></script>
+
+<title>WebSocketed stock charts</title>
+</head>
+<body>
+
+	<p><span>Stock charts</span></p>
+	<div id = "hide" class = "hidden">
+	<svg id= "graphicer"> </svg>
+	</div>
+	<div id = "main"></div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "stock-sockets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node chat-server.js"
+  },
+  "engines": {
+    "node": "4.4.3"
+  },
+  "keywords": [],
+  "author": "soirana",
+  "license": "ISC",
+  "description": "socket application for fcc",
+  "dependencies": {
+    "websocket": "1.0.23",
+    "yahoo-finance": "0.2.12"
+  }
+}
